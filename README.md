@@ -18,5 +18,6 @@ Start the web application by `python3 dashboard/index.py`
 
 Visit `localhost:8888` from your web browser. 
 
-If you are trying to access this from bootstrap, you can use ssh tunneling by `ssh -L 8888:127.0.0.1:8888 bootstrap` in your terminal and then access the same link above
+If you are trying to access this from bootstrap, you can use ssh tunneling by 
+`ssh -L 8888:127.0.0.1:8888 bootstrap` in your terminal and then access the same link above.
 
