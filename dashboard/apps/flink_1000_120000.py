@@ -15,7 +15,7 @@ global_linux_default_df = pd.DataFrame()
 global_linux_default_df_non0j = pd.DataFrame()
 global_linux_default_name = []
 
-workload_loc='../datasets/1000_120000.csv'
+workload_loc='./datasets/1000_120000.csv'
 df_comb = pd.read_csv(workload_loc, sep=' ')
 axis_values = [{'label': key, 'value': key} for key in df_comb.columns] 
 
