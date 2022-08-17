@@ -1,0 +1,57 @@
+2022-08-17 18:44:54,277 INFO  org.apache.flink.client.cli.CliFrontend                      [] - --------------------------------------------------------------------------------
+2022-08-17 18:44:54,303 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  Starting Command Line Client (Version: 1.14.0, Scala: 2.11, Rev:a369ff4, Date:2022-07-27T23:07:48+02:00)
+2022-08-17 18:44:54,303 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  OS current user: root
+2022-08-17 18:44:54,304 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  Current Hadoop/Kerberos user: <no hadoop dependency found>
+2022-08-17 18:44:54,305 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  JVM: OpenJDK 64-Bit Server VM - Oracle Corporation - 11/11.0.7+10
+2022-08-17 18:44:54,311 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  Maximum heap size: 30688 MiBytes
+2022-08-17 18:44:54,312 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  JAVA_HOME: (not set)
+2022-08-17 18:44:54,312 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  No Hadoop Dependency available
+2022-08-17 18:44:54,312 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  JVM Options:
+2022-08-17 18:44:54,312 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     -Dlog.file=/mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/log/flink-root-client-neu-15-3.log
+2022-08-17 18:44:54,313 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     -Dlog4j.configuration=file:/mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/conf/log4j-cli.properties
+2022-08-17 18:44:54,313 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     -Dlog4j.configurationFile=file:/mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/conf/log4j-cli.properties
+2022-08-17 18:44:54,313 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     -Dlogback.configurationFile=file:/mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/conf/logback.xml
+2022-08-17 18:44:54,313 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  Program Arguments:
+2022-08-17 18:44:54,315 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     run
+2022-08-17 18:44:54,316 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     ../dependencies/flink-benchmarks/target/kinesisBenchmarkMoc-1.1-SNAPSHOT-jar-with-dependencies.jar
+2022-08-17 18:44:54,316 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     --ratelist
+2022-08-17 18:44:54,316 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     1000_120000
+2022-08-17 18:44:54,316 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     --buffer-Timeout
+2022-08-17 18:44:54,316 INFO  org.apache.flink.client.cli.CliFrontend                      [] -     20
+2022-08-17 18:44:54,316 INFO  org.apache.flink.client.cli.CliFrontend                      [] -  Classpath: /mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/lib/flink-shaded-zookeeper-3.4.14.jar:/mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/lib/log4j-1.2-api-2.14.1.jar:/mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/lib/log4j-api-2.14.1.jar:/mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/lib/log4j-core-2.14.1.jar:/mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/lib/log4j-slf4j-impl-2.14.1.jar:/mnt/eestreaming/dependencies/flink-simplified/flink-dist/target/flink-1.14.0-bin/flink-1.14.0/lib/flink-dist_2.11-1.14.0.jar:::
+2022-08-17 18:44:54,317 INFO  org.apache.flink.client.cli.CliFrontend                      [] - --------------------------------------------------------------------------------
+2022-08-17 18:44:54,322 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: jobmanager.rpc.address, 192.168.1.153
+2022-08-17 18:44:54,322 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: jobmanager.rpc.port, 6123
+2022-08-17 18:44:54,322 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: jobmanager.memory.process.size, 4096m
+2022-08-17 18:44:54,322 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: jobmanager.scheduler, Custom
+2022-08-17 18:44:54,323 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: taskmanager.memory.flink.size, 4096m
+2022-08-17 18:44:54,323 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: taskmanager.numberOfTaskSlots, 2
+2022-08-17 18:44:54,323 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: parallelism.default, 1
+2022-08-17 18:44:54,324 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: state.backend, rocksdb
+2022-08-17 18:44:54,324 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: state.checkpoints.dir, file:////mnt/eestreaming/dependencies/flink-simplified/flinkstate
+2022-08-17 18:44:54,324 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: jobmanager.execution.failover-strategy, region
+2022-08-17 18:44:54,369 INFO  org.apache.flink.client.cli.CliFrontend                      [] - Loading FallbackYarnSessionCli
+2022-08-17 18:44:54,369 WARN  org.apache.flink.client.cli.CliFrontend                      [] - Could not load CLI class org.apache.flink.yarn.cli.FlinkYarnSessionCli.
+java.lang.ClassNotFoundException: org.apache.flink.yarn.cli.FlinkYarnSessionCli
+	at jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581) ~[?:?]
+	at jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178) ~[?:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:522) ~[?:?]
+	at java.lang.Class.forName0(Native Method) ~[?:?]
+	at java.lang.Class.forName(Class.java:315) ~[?:?]
+	at org.apache.flink.client.cli.CliFrontend.loadCustomCommandLine(CliFrontend.java:1254) ~[flink-dist_2.11-1.14.0.jar:1.14.0]
+	at org.apache.flink.client.cli.CliFrontend.loadCustomCommandLines(CliFrontend.java:1198) [flink-dist_2.11-1.14.0.jar:1.14.0]
+	at org.apache.flink.client.cli.CliFrontend.main(CliFrontend.java:1125) [flink-dist_2.11-1.14.0.jar:1.14.0]
+2022-08-17 18:44:54,441 INFO  org.apache.flink.core.fs.FileSystem                          [] - Hadoop is not in the classpath/dependencies. The extended set of supported File Systems via Hadoop is not available.
+2022-08-17 18:44:54,510 INFO  org.apache.flink.runtime.security.modules.HadoopModuleFactory [] - Cannot create Hadoop Security Module because Hadoop cannot be found in the Classpath.
+2022-08-17 18:44:54,527 INFO  org.apache.flink.runtime.security.modules.JaasModule         [] - Jaas file will be created as /tmp/jaas-5142451406779255432.conf.
+2022-08-17 18:44:54,536 INFO  org.apache.flink.runtime.security.contexts.HadoopSecurityContextFactory [] - Cannot install HadoopSecurityContext because Hadoop cannot be found in the Classpath.
+2022-08-17 18:44:54,538 INFO  org.apache.flink.client.cli.CliFrontend                      [] - Running 'run' command.
+2022-08-17 18:44:54,648 INFO  org.apache.flink.client.cli.CliFrontend                      [] - Building program from JAR file
+2022-08-17 18:44:54,754 INFO  org.apache.flink.client.ClientUtils                          [] - Starting program (detached: false)
+2022-08-17 18:44:54,816 INFO  org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend [] - Using predefined options: DEFAULT.
+2022-08-17 18:44:54,817 INFO  org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend [] - Using default options factory: DefaultConfigurableOptionsFactory{configuredOptions={}}.
+2022-08-17 18:44:54,896 INFO  org.apache.flink.api.java.typeutils.TypeExtractor            [] - The default constructor of class org.apache.beam.sdk.nexmark.model.Bid is not Public so it cannot be used as a POJO type and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance.
+2022-08-17 18:44:55,542 INFO  org.apache.flink.configuration.Configuration                 [] - Config uses fallback configuration key 'jobmanager.rpc.address' instead of key 'rest.address'
+2022-08-17 18:44:55,600 INFO  org.apache.flink.client.program.rest.RestClusterClient       [] - Submitting job 'Nexmark Query1' (fb78d4a187ded63f26be8b933efc4a2d).
+2022-08-17 18:44:57,932 INFO  org.apache.flink.client.program.rest.RestClusterClient       [] - Successfully submitted job 'Nexmark Query1' (fb78d4a187ded63f26be8b933efc4a2d) to 'http://192.168.1.153:8081'.
+2022-08-17 18:45:01,403 INFO  org.apache.flink.configuration.Configuration                 [] - Config uses fallback configuration key 'jobmanager.rpc.address' instead of key 'rest.address'
