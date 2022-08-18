@@ -7,7 +7,7 @@ from dash.dependencies import Input, Output
 import pandas as pd
 
 from app import app
-from apps import homepage, flink_1000_120000
+from apps import homepage, flink_1000_120000,results
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -31,7 +31,7 @@ sidebar = html.Div(
     [   
         html.Div([
             html.H5([
-                html.A("ItrLOG", href="/", style={'text-decoration': 'none', 'color': 'black'}),
+                dbc.NavLink("ItrLOG", href="/", style={'text-decoration': 'none', 'color': 'black'}),
             ], className="display-4"),
         ]),
         html.Hr(),
@@ -39,9 +39,15 @@ sidebar = html.Div(
             "An visualization tool for flink energy efficient streaming experiment", className="lead"
         ),
         dbc.Nav(
-            [
+            [  
                 dbc.Accordion(
                     [   
+                        dbc.AccordionItem(
+                            [
+                                dbc.NavLink("Launch", href="/apps/launch", active="exact"),
+                                dbc.NavLink("Results", href="/apps/results", active="exact"),
+                            ], title="Launch Experiment", id="launch_link"
+                        ),
                         dbc.AccordionItem(
                             [
                                 dbc.NavLink("1000QPS", href="/apps/flink_1000_120000", active="exact"),
@@ -81,6 +87,8 @@ def render_page_content(pathname):
         return homepage.layout
     elif pathname == '/apps/flink_1000_120000':
         return flink_1000_120000.layout
+    elif pathname == '/apps/results':
+        return results.layout
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
         [
