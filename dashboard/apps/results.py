@@ -52,17 +52,12 @@ y_axis_options =  ['rx_desc', 'rx_bytes', 'tx_desc', 'tx_bytes', 'instructions',
 
 core_dfs = []
 core_dfs_non0j = []
-
-for core in cores:
-    df, df_non0j = read_log(log_loc, core, itr, dvfs, rapl)
-    core_dfs.append(df)
-    core_dfs_non0j.append(df_non0j)
-
-latency_fig = read_latency(log_loc, itr, dvfs, rapl)
+latency_fig = None
 
 
 layout = html.Div([
     html.Br(),
+    dbc.Button("Refresh", id="refresh-button", color="primary", className="mr-1"),
     html.Br(),
     html.H3('Per Core Timeline plot', style={'textAlign': 'center'}),
     html.Br(),
@@ -91,26 +86,46 @@ layout = html.Div([
     html.Br(),
     html.H3('Latency Timeline Plot', style={'textAlign': 'center'}),
     html.Br(),
+    html.Div(id='empty'),
     html.Div([
         dcc.Graph(
             id='flink-latency-timeline',
-            figure=latency_fig,
             style={'display': 'inline-block', 'width': '100%', 'height': '100%'},
         ),
     ], style={'margin-left': 'auto', 'margin-right': 'auto', 'width': '60%'}),
 ])
 
 
+def refresh_df():
+    global core_dfs
+    global core_dfs_non0j
+    global latency_fig
+    
+    core_dfs = []
+    core_dfs_non0j=[]
+
+    for core in cores:
+        df, df_non0j = read_log(log_loc, core, itr, dvfs, rapl)            
+        core_dfs.append(df)
+        core_dfs_non0j.append(df_non0j)
+
+    latency_fig = read_latency(log_loc, itr, dvfs, rapl)
+    return
+
 @app.callback(
-    Output('core-figure', 'figure'),
+    [Output('core-figure', 'figure'),
+     Output('flink-latency-timeline', 'figure')],
     [Input('core-selector', 'value'),
      Input('y-axis-selector', 'value')]
 )
 def update_custom_scatter(core, y_axis):
+    refresh_df()
     if y_axis == 'joules':
         df = core_dfs_non0j[int(core)]
     else:
         df = core_dfs[int(core)]
     fig = px.line(df, x='timestamp', y=y_axis, ) 
     print(df.tail())
-    return fig
+    return fig, latency_fig
+
+

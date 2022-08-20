@@ -44,7 +44,9 @@ duration_input = dbc.Row(
 )
 
 def process_bar_by_time(t):
-    n = int(t)*10
+    n = int(t)*1000
+    n += 50000
+    n = n//100
     progress = html.Div(
         [
             dcc.Interval(id="progress-interval", n_intervals=0, interval=n),
@@ -131,7 +133,7 @@ def update_if_running(n_clicks, duration):
         return [
             html.Hr(),
             html.H3("Experiment is Running"),
-            html.H3("Started at " + current_time),
+            html.H5("Started at " + current_time),
             process_bar_by_time(duration)], True
         
 
@@ -139,14 +141,14 @@ def update_if_running(n_clicks, duration):
 
 @app.callback(
     [Output("progress", "value"), Output("progress", "label"), Output("progress-interval", "disabled")],
-    [Input("progress-interval", "n_intervals"), Input("progress-interval", "interval")],
+    [Input("progress-interval", "n_intervals")],
 )
-def update_progress(n, n_max):
+def update_progress(n):
     # check progress of some background process, in this example we'll just
     # use n_intervals constrained to be in 0-100
     
-    if n == n_max:
+    if n >= 100:
         return 100, "100%", True
     # only add text after 5% progress to ensure text isn't squashed too much
-    progress = (n*100)//n_max
-    return progress, f"{progress} %" if progress >= 5 else "", False
+    n = n+1
+    return n, f"{n} %" if n >= 5 else "", False
