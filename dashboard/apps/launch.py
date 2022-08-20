@@ -4,6 +4,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 from app import app
 import time
+import subprocess
 
 global running_state
 running_state = False
@@ -82,7 +83,15 @@ def run_experiment(n_clicks, query, rate, duration):
     if n_clicks is None:
         return None, None
     else:
-        time.sleep(3)
+        duration += "000"
+        rate_list = rate + "_" + duration
+        #subprocess.call(["sh", "run-example.sh", "-q", query, "-r", rate_list], cwd="/mnt/eestreaming/scripts/")
+        results = subprocess.check_output(
+                ["sh", "run-example.sh", "-q", query, "-r", rate_list], 
+                cwd="/mnt/eestreaming/scripts/", 
+                universal_newlines=True
+            )
+        print(results)
         return html.Div([
             html.H3("Experiment Finished"),
             html.H5(["Query: " + query], style={'textAlign': 'center', 'margin': '10px'}),
