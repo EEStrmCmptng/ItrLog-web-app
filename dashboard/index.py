@@ -1,3 +1,4 @@
+from importlib.resources import path
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
@@ -7,7 +8,7 @@ from dash.dependencies import Input, Output
 import pandas as pd
 
 from app import app
-from apps import homepage, flink_1000_120000,results
+from apps import homepage, flink_1000_120000,results, launch 
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -89,6 +90,8 @@ def render_page_content(pathname):
         return flink_1000_120000.layout
     elif pathname == '/apps/results':
         return results.layout
+    elif pathname == '/apps/launch':
+        return launch.layout
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
         [
@@ -101,4 +104,4 @@ def render_page_content(pathname):
 
 
 if __name__ == "__main__":
-    app.run_server(port=8888)
+    app.run_server(port=8888, debug=True)
