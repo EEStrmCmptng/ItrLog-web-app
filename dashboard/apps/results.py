@@ -54,17 +54,6 @@ y_axis_options =  ['rx_desc', 'rx_bytes', 'tx_desc', 'tx_bytes', 'instructions',
 
 core_dfs = []
 core_dfs_non0j = []
-latency_fig = None
-rx_desc_max = 0
-rx_bytes_max = 0
-tx_desc_max = 0
-tx_bytes_max = 0
-instructions_max = 0
-cycles_max = 0
-ref_cycles_max = 0
-llc_miss_max = 0
-joules_max = 0
-
 
 layout = html.Div([
     html.Br(),
@@ -206,30 +195,12 @@ def refresh_df():
     global core_dfs
     global core_dfs_non0j
     global latency_fig
-    global rx_desc_max
-    global rx_bytes_max
-    global tx_desc_max
-    global tx_bytes_max
-    global instructions_max
-    global cycles_max
-    global ref_cycles_max
-    global llc_miss_max
-    global joules_max
-    
+
     core_dfs = []
     core_dfs_non0j=[]
 
     for core in cores:
         df, df_non0j = read_log(log_loc, core, itr, dvfs, rapl)
-        rx_bytes_max = max(rx_bytes_max, df['rx_bytes'].max())
-        rx_desc_max = max(rx_desc_max, df['rx_desc'].max())
-        tx_bytes_max = max(tx_bytes_max, df['tx_bytes'].max())
-        tx_desc_max = max(tx_desc_max, df['tx_desc'].max())
-        instructions_max = max(instructions_max, df['instructions'].max())
-        cycles_max = max(cycles_max, df['cycles'].max())
-        ref_cycles_max = max(ref_cycles_max, df['ref_cycles'].max())
-        llc_miss_max = max(llc_miss_max, df['llc_miss'].max())
-        joules_max = max(joules_max, df_non0j['joules'].max())
         core_dfs.append(df)
         core_dfs_non0j.append(df_non0j)
 
@@ -257,25 +228,26 @@ def refresh_df():
     [Input('y-axis-selector', 'value')]
 )
 def update_custom_scatter(y_axis):
-    global rx_desc_max
-    global rx_bytes_max
-    global tx_desc_max
-    global tx_bytes_max
-    global instructions_max
-    global cycles_max
-    global ref_cycles_max
-    global llc_miss_max
-    global joules_max
+    global core_dfs
+    global core_dfs_non0j
     global latency_fig
+    y_max = 0
     refresh_df()
     figs = []
+
+    for core in range(0,16):
+        if y_axis == 'joules':
+            df = core_dfs_non0j[int(core)]
+        else:
+            df = core_dfs[int(core)]
+        y_max = max(y_max, df[y_axis].max())
+
     for core in range(0,16):
         if y_axis == 'joules':
             df = core_dfs_non0j[int(core)]
         else:
             df = core_dfs[int(core)]
         fig = px.scatter(df, x='timestamp', y=y_axis, title=f'Core {core}', height=350)
-        y_max = eval(y_axis+'_max')
         y_axis_range = [0-y_max/20, y_max+y_max/20]
         fig.update_layout(yaxis_range=y_axis_range)
         figs.append(fig)
