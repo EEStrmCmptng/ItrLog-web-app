@@ -9,7 +9,7 @@ import pandas as pd
 
 from app import app
 from apps import *
-from apps import homepage, flink200K, flink300K, flinktest, results, launch 
+from apps import homepage, flink200K, flink300K, flink10_19_2023, results, launch 
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -53,8 +53,8 @@ sidebar = html.Div(
                         dbc.AccordionItem(
                             [
                                 dbc.NavLink("Flink200K", href="/apps/flink200K", active="exact"),
-                                dbc.NavLink("Flink300K", href="/apps/flink300K", active="exact"),
-                                dbc.NavLink("FlinkTest", href="/apps/flinktest", active="exact"),
+                                dbc.NavLink("Flink300K_10_12_2023", href="/apps/flink300K", active="exact"),
+                                dbc.NavLink("Flink300K_10_19_2023", href="/apps/flink10_19_2023", active="exact"),
                             ], title="Query 1", id="query1"
                         ),
                         dbc.AccordionItem(
@@ -91,8 +91,8 @@ def render_page_content(pathname):
         return flink200K.layout
     elif pathname == '/apps/flink300K':
         return flink300K.layout
-    elif pathname == '/apps/flinktest':
-        return flinktest.layout
+    elif pathname == '/apps/flink10_19_2023':
+        return flink10_19_2023.layout
     elif pathname == '/apps/results':
         return results.layout
     elif pathname == '/apps/launch':

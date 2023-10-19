@@ -11,29 +11,7 @@ import numpy as np
 
 from app import app
 
-rdvfs_dict = {
-    1 : "1",
-    1.2 : "0c00",
-    1.3 : "0d00",
-    1.4 : "0e00",
-    1.5 : "0f00",
-    1.6 : "1000",
-    1.7 : "1100",
-    1.8 : "1200",
-    1.9 : "1300",
-    2.0 : "1400",
-    2.1 : "1500",
-    2.2 : "1600",
-    2.3 : "1700",
-    2.4 : "1800",
-    2.5 : "1900",
-    2.6 : "1a00",
-    2.7 : "1b00",
-    2.8 : "1c00",
-    2.9 : "1d00",
-}
-
-workload_loc='~/flink/10_12_2023_5.15.89_itrlog/combined.csv'
+workload_loc='/home/handong/flink/10_19_2023_5.15.89_itrlog/combined.csv'
 
 TIME_CONVERSION_khz = 1./(2600000*1000)
 JOULE_CONVERSION = 0.00001526
@@ -58,35 +36,35 @@ layout = html.Div([
     html.Br(),
     
     html.Div([
-        dcc.Dropdown(id='mcd3-xaxis-selector-1', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
-        dcc.Dropdown(id='mcd3-yaxis-selector-1', value='joules', style={'width':'60%'}, options=axis_values),        
+        dcc.Dropdown(id='flink10_19_2023-xaxis-selector-1', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink10_19_2023-yaxis-selector-1', value='joules', style={'width':'60%'}, options=axis_values),        
         dcc.Graph(
-            id='mcd3-custom-scatter-1', style={'display': 'inline-block'}
+            id='flink10_19_2023-custom-scatter-1', style={'display': 'inline-block'}
         )
     ], style={'display': 'inline-block'}),
         
     html.Div([
-        dcc.Dropdown(id='mcd3-xaxis-selector-2', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
-        dcc.Dropdown(id='mcd3-yaxis-selector-2', value='instructions', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink10_19_2023-xaxis-selector-2', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink10_19_2023-yaxis-selector-2', value='instructions', style={'width':'60%'}, options=axis_values),
         dcc.Graph(
-            id='mcd3-custom-scatter-2', style={'display': 'inline-block'}
+            id='flink10_19_2023-custom-scatter-2', style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
 
     html.Div([
-        dcc.Dropdown(id='mcd3-xaxis-selector-3', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
-        dcc.Dropdown(id='mcd3-yaxis-selector-3', value='ref_cycles', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink10_19_2023-xaxis-selector-3', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink10_19_2023-yaxis-selector-3', value='ref_cycles_in_Seconds', style={'width':'60%'}, options=axis_values),
         dcc.Graph(
-            id='mcd3-custom-scatter-3',
+            id='flink10_19_2023-custom-scatter-3',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
 
     html.Div([
-        dcc.Dropdown(id='mcd3-xaxis-selector-4', value='rxBytes', style={'width':'60%'}, options=axis_values),
-        dcc.Dropdown(id='mcd3-yaxis-selector-4', value='rxBytesIntLog', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink10_19_2023-xaxis-selector-4', value='rxBytes', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink10_19_2023-yaxis-selector-4', value='rxBytesIntLog', style={'width':'60%'}, options=axis_values),
         dcc.Graph(
-            id='mcd3-custom-scatter-4',
+            id='flink10_19_2023-custom-scatter-4',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
@@ -98,82 +76,82 @@ layout = html.Div([
 
     html.Div([
         html.P('Y-AXIS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-xaxis-selector-5',
+        dcc.Dropdown(id='flink10_19_2023-xaxis-selector-5',
                      value='timestamp_diff',
                      style={'width':'60%'},
                      options=taxis_values,
                      placeholder="Select y-axis value",),
         html.P('CORE: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-yaxis-selector-5',
+        dcc.Dropdown(id='flink10_19_2023-yaxis-selector-5',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 16)],
                      placeholder="Select core"),
         
         html.P('ITERATION: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-zaxis-selector-5',
+        dcc.Dropdown(id='flink10_19_2023-zaxis-selector-5',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 10)],
                      placeholder="Select a iteration number",),
         html.P('POLICY: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-aaxis-selector-5',
+        dcc.Dropdown(id='flink10_19_2023-aaxis-selector-5',
                      value="ondemand",
                      style={'width':'60%'},
                      options=["ondemand", "conservative","performance", "schedutil", "powersave", "userspace"]),
         html.P('ITR: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-baxis-selector-5',
+        dcc.Dropdown(id='flink10_19_2023-baxis-selector-5',
                      value=1,
                      style={'width':'60%'},
                      options=[1, 2, 100, 200, 400, 600]),
         html.P('DVFS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-caxis-selector-5',
-                     value=1,
+        dcc.Dropdown(id='flink10_19_2023-caxis-selector-5',
+                     value="1",
                      style={'width':'60%'},
-                     options=[1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]),
+                     options=["1", "0c00", "0e00", "1000", "1200", "1400", "1600", "1800", "1a00"]),
         dcc.Graph(
-            id='mcd3-custom-scatter-5',
+            id='flink10_19_2023-custom-scatter-5',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
 
     html.Div([
         html.P('Y-AXIS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-xaxis-selector-6',
+        dcc.Dropdown(id='flink10_19_2023-xaxis-selector-6',
                      value='timestamp_diff',
                      style={'width':'60%'},
                      options=taxis_values,
                      placeholder="Select y-axis value",),
         html.P('CORE: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-yaxis-selector-6',
+        dcc.Dropdown(id='flink10_19_2023-yaxis-selector-6',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 16)],
                      placeholder="Select core"),
         
         html.P('ITERATION: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-zaxis-selector-6',
+        dcc.Dropdown(id='flink10_19_2023-zaxis-selector-6',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 10)],
                      placeholder="Select a iteration number",),
         html.P('POLICY: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-aaxis-selector-6',
+        dcc.Dropdown(id='flink10_19_2023-aaxis-selector-6',
                      value="ondemand",
                      style={'width':'60%'},
                      options=["ondemand", "conservative","performance", "schedutil", "powersave", "userspace"]),
         html.P('ITR: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-baxis-selector-6',
+        dcc.Dropdown(id='flink10_19_2023-baxis-selector-6',
                      value=1,
                      style={'width':'60%'},
                      options=[1, 2, 100, 200, 400, 600]),
         html.P('DVFS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='mcd3-caxis-selector-6',
-                     value=1,
+        dcc.Dropdown(id='flink10_19_2023-caxis-selector-6',
+                     value="1",
                      style={'width':'60%'},
-                     options=[1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]),
+                     options=["1", "0c00", "0e00", "1000", "1200", "1400", "1600", "1800", "1a00"]),
         dcc.Graph(
-            id='mcd3-custom-scatter-6',
+            id='flink10_19_2023-custom-scatter-6',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
@@ -182,9 +160,9 @@ layout = html.Div([
 
 for i in range(1, 5):
     @app.callback(
-        Output('mcd3-custom-scatter-'+str(i), 'figure'),
-        [Input('mcd3-xaxis-selector-'+str(i), 'value'),
-         Input('mcd3-yaxis-selector-'+str(i), 'value')]
+        Output('flink10_19_2023-custom-scatter-'+str(i), 'figure'),
+        [Input('flink10_19_2023-xaxis-selector-'+str(i), 'value'),
+         Input('flink10_19_2023-yaxis-selector-'+str(i), 'value')]
     )
     def update_custom_scatter(xcol, ycol):
         fig = px.scatter(df_comb, 
@@ -198,17 +176,17 @@ for i in range(1, 5):
 
 for i in range(5, 7):
     @app.callback(
-        Output('mcd3-custom-scatter-'+str(i), 'figure'),
-        [Input('mcd3-xaxis-selector-'+str(i), 'value'),
-         Input('mcd3-yaxis-selector-'+str(i), 'value'),
-         Input('mcd3-zaxis-selector-'+str(i), 'value'),
-         Input('mcd3-aaxis-selector-'+str(i), 'value'),
-         Input('mcd3-baxis-selector-'+str(i), 'value'),
-         Input('mcd3-caxis-selector-'+str(i), 'value')]
+        Output('flink10_19_2023-custom-scatter-'+str(i), 'figure'),
+        [Input('flink10_19_2023-xaxis-selector-'+str(i), 'value'),
+         Input('flink10_19_2023-yaxis-selector-'+str(i), 'value'),
+         Input('flink10_19_2023-zaxis-selector-'+str(i), 'value'),
+         Input('flink10_19_2023-aaxis-selector-'+str(i), 'value'),
+         Input('flink10_19_2023-baxis-selector-'+str(i), 'value'),
+         Input('flink10_19_2023-caxis-selector-'+str(i), 'value')]
     )
     def update_custom_scatter2(xcol, ycol, zcol, acol, bcol, ccol):
         df = pd.DataFrame()
-        fname=f"/home/handong/flink/10_12_2023_5.15.89_itrlog/query1_cores16_frate300000_600000_fbuff-1_itr{bcol}_{acol}dvfs{rdvfs_dict[ccol]}_repeat{zcol}/ITRlogs/linux.flink.dmesg._{ycol}_{zcol}"
+        fname=f"/home/handong/flink/10_12_2023_5.15.89_itrlog/query1_cores16_frate300000_600000_fbuff-1_itr{bcol}_{acol}dvfs{ccol}_repeat{zcol}/ITRlogs/linux.flink.dmesg._{ycol}_{zcol}"
         df = pd.read_csv(fname, sep=' ', names=LINUX_COLS)
         df_non0j = df[(df['joules']>0) & (df['instructions'] > 0) & (df['cycles'] > 0) & (df['ref_cycles'] > 0) & (df['llc_miss'] > 0)]
         df_non0j['timestamp'] = df_non0j['timestamp'] - df_non0j['timestamp'].min()
