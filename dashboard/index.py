@@ -8,7 +8,8 @@ from dash.dependencies import Input, Output
 import pandas as pd
 
 from app import app
-from apps import homepage, flink_1000_120000,results, launch 
+from apps import *
+from apps import homepage, flink200K, flink300K, flinktest, results, launch 
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -43,17 +44,17 @@ sidebar = html.Div(
             [  
                 dbc.Accordion(
                     [   
+                        #dbc.AccordionItem(
+                        #    [
+                        #        dbc.NavLink("Launch", href="/apps/launch", active="exact"),
+                        #        dbc.NavLink("Results", href="/apps/results", active="exact"),
+                        #    ], title="Launch Experiment", id="launch_link"
+                        #),
                         dbc.AccordionItem(
                             [
-                                dbc.NavLink("Launch", href="/apps/launch", active="exact"),
-                                dbc.NavLink("Results", href="/apps/results", active="exact"),
-                            ], title="Launch Experiment", id="launch_link"
-                        ),
-                        dbc.AccordionItem(
-                            [
-                                dbc.NavLink("1000QPS", href="/apps/flink_1000_120000", active="exact"),
-                                dbc.NavLink("5000QPS", href="/apps/flink_5000_120000", active="exact"),
-                                dbc.NavLink("7000QPS", href="/apps/flink_7000_120000", active="exact"),
+                                dbc.NavLink("Flink200K", href="/apps/flink200K", active="exact"),
+                                dbc.NavLink("Flink300K", href="/apps/flink300K", active="exact"),
+                                dbc.NavLink("FlinkTest", href="/apps/flinktest", active="exact"),
                             ], title="Query 1", id="query1"
                         ),
                         dbc.AccordionItem(
@@ -66,7 +67,7 @@ sidebar = html.Div(
                             "No yet Implemented", title="Query 8", id="query8"
                         ),
                     ],
-                    start_collapsed=True,
+                    start_collapsed=False,
                 ),
             ],
             vertical=True,
@@ -86,8 +87,12 @@ def render_page_content(pathname):
     print(pathname)
     if pathname == "/":
         return homepage.layout
-    elif pathname == '/apps/flink_1000_120000':
-        return flink_1000_120000.layout
+    elif pathname == '/apps/flink200K':
+        return flink200K.layout
+    elif pathname == '/apps/flink300K':
+        return flink300K.layout
+    elif pathname == '/apps/flinktest':
+        return flinktest.layout
     elif pathname == '/apps/results':
         return results.layout
     elif pathname == '/apps/launch':
@@ -104,4 +109,4 @@ def render_page_content(pathname):
 
 
 if __name__ == "__main__":
-    app.run_server(port=8888, debug=True)
+    app.run_server(port=8888, debug=True, host='10.241.31.71')
