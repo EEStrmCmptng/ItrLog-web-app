@@ -142,7 +142,6 @@ layout = html.Div([
         html.Hr(),
         html.Br()
     ]),
-
     html.Div([
         html.P('Y-AXIS: ', style={'display': 'inline-block'}),
         dcc.Dropdown(id='flink300K_10_19_2023-xaxis-selector-5',
@@ -224,6 +223,47 @@ layout = html.Div([
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
+
+    ## itr log aggregate
+    html.Div([
+        html.Hr(),
+        html.Br()
+    ]),
+
+    html.Div([
+        html.P('Y-AXIS: ', style={'display': 'inline-block'}),
+        dcc.Dropdown(id='flink300K_10_19_2023-intlogagg-yaxis-1',
+                     value='timestamp_diff',
+                     style={'width':'60%'},
+                     options=taxis_values,
+                     placeholder="Select y-axis value",),        
+        html.P('ITERATION: ', style={'display': 'inline-block'}),
+        dcc.Dropdown(id='flink300K_10_19_2023-intlogagg-itera-1',
+                     value=0,
+                     style={'width':'60%'},
+                     options=[x for x in range(0, 10)],
+                     placeholder="Select a iteration number",),
+        html.P('POLICY: ', style={'display': 'inline-block'}),
+        dcc.Dropdown(id='flink300K_10_19_2023-intlogagg-policy-1',
+                     value="ondemand",
+                     style={'width':'60%'},
+                     options=["ondemand", "conservative","performance", "schedutil", "powersave", "userspace"]),
+        html.P('ITR: ', style={'display': 'inline-block'}),
+        dcc.Dropdown(id='flink300K_10_19_2023-intlogagg-itr-1',
+                     value=1,
+                     style={'width':'60%'},
+                     options=[1, 2, 100, 200, 400, 600]),
+        html.P('DVFS: ', style={'display': 'inline-block'}),
+        dcc.Dropdown(id='flink300K_10_19_2023-intlogagg-dvfs-1',
+                     value=1,
+                     style={'width':'60%'},
+                     options=[1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]),
+        dcc.Graph(
+            id='flink300K_10_19_2023-intlogagg-1',
+            style={'display': 'inline-block'}
+        ),
+    ], style={'display': 'inline-block'}),
+
 
 ])
 
@@ -343,7 +383,7 @@ for i in range(1, 2):
                 fig = fig.add_trace(go.Scatter(x=kwlist['cnt'],
                                                y=kwlist[yaxis], name=f"Sink_{i}"))
                 
-                
+            
         
         return fig
         
@@ -374,6 +414,7 @@ for i in range(5, 7):
         df_non0j.dropna(inplace=True)
         df_non0j = df_non0j[df_non0j['joules_diff'] > 0]
 
+        
         fig = px.scatter(df_non0j, 
                          x='i', 
                          y=xcol)
@@ -382,3 +423,36 @@ for i in range(5, 7):
         #fig1.add_trace(go.Scatter(x=df_non0j['i'], y=df_non0j['timestamp_diff'], name='f', showlegend=True, marker={'sizemin':2, 'color':'red'}))
         
         return fig
+
+for i in range(1, 2):
+    @app.callback(
+        Output('flink300K_10_19_2023-intlogagg-'+str(i), 'figure'),
+        [Input('flink300K_10_19_2023-intlogagg-yaxis-'+str(i), 'value'),
+         Input('flink300K_10_19_2023-intlogagg-itera-'+str(i), 'value'),
+         Input('flink300K_10_19_2023-intlogagg-policy-'+str(i), 'value'),
+         Input('flink300K_10_19_2023-intlogagg-itr-'+str(i), 'value'),
+         Input('flink300K_10_19_2023-intlogagg-dvfs-'+str(i), 'value')]
+    )
+    def update_intlogagg(yaxis, itera, policy, itr, dvfs):
+        fig1 = go.Figure()
+        fig1.update_layout(xaxis_title="i", yaxis_title=yaxis)
+        
+        for core in range(0, 16):            
+            df = pd.DataFrame()
+            fname=f"/home/handong/flink/10_19_2023_5.15.89_itrlog/query1_cores16_frate300000_600000_fbuff-1_itr{itr}_{policy}dvfs{rdvfs_dict[dvfs]}_repeat{itera}/ITRlogs/linux.flink.dmesg._{core}_{itera}"
+            df = pd.read_csv(fname, sep=' ', names=LINUX_COLS)
+            df_non0j = df[(df['joules']>0) & (df['instructions'] > 0) & (df['cycles'] > 0) & (df['ref_cycles'] > 0) & (df['llc_miss'] > 0)]
+            df_non0j['timestamp'] = df_non0j['timestamp'] - df_non0j['timestamp'].min()
+            df_non0j['timestamp'] = df_non0j['timestamp'] * TIME_CONVERSION_khz
+            df_non0j['ref_cycles'] = df_non0j['ref_cycles'] * TIME_CONVERSION_khz
+            df_non0j['joules'] = df_non0j['joules'] * JOULE_CONVERSION
+            df_non0j = df_non0j[(df_non0j['timestamp'] > 300) & (df_non0j['timestamp'] < 600)]
+            
+            tmp = df_non0j[['instructions', 'cycles', 'ref_cycles', 'llc_miss', 'joules', 'c0', 'c1', 'c1e', 'c3', 'c6', 'c7','timestamp']].diff()
+            tmp.columns = [f'{c}_diff' for c in tmp.columns]
+            df_non0j = pd.concat([df_non0j, tmp], axis=1)
+            df_non0j.dropna(inplace=True)
+            df_non0j = df_non0j[df_non0j['joules_diff'] > 0]
+
+            fig1.add_trace(go.Scatter(x=df_non0j['i'], y=df_non0j[yaxis], name=f"Core {core}"))
+        return fig1
