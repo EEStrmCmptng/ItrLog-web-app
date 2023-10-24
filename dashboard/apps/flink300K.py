@@ -95,6 +95,11 @@ layout = html.Div([
         html.Hr(),
         html.Br()
     ]),
+    
+    html.Div([
+        html.Hr(),
+        html.Br()
+    ]),
 
     html.Div([
         html.P('Y-AXIS: ', style={'display': 'inline-block'}),
