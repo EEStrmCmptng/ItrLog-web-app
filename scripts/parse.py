@@ -11,11 +11,17 @@ import time
 
 LINUX_COLS = ['i', 'rx_desc', 'rx_bytes', 'tx_desc', 'tx_bytes', 'instructions', 'cycles', 'ref_cycles', 'llc_miss', 'c0', 'c1', 'c1e', 'c3', 'c6', 'c7', 'joules', 'timestamp']
 
-policies = ["userspace", "ondemand", "conservative","performance", "schedutil", "powersave"]
+#policies = ["userspace", "ondemand", "conservative","performance", "schedutil", "powersave"]
+policies = ["ondemand", "conservative","performance", "schedutil", "powersave"]
 #policies = ["userspace"]
-itrs = [1, 2, 100, 200, 400, 600]
+#itrs = [1, 2, 50, 100, 200, 400, 600, 800]
+itrs = [1]
+qpss = [100000, 200000, 300000, 400000]
+#qpss = [400000]
 #itrs = [600]
-dvfss = ["1", "0c00", "0d00", "0e00", "0f00", "1000", "1100", "1200", "1300", "1400", "1500", "1600", "1700", "1800", "1900", "1a00"]
+#dvfss = ["1", "0c00", "0d00", "0e00", "0f00", "1000", "1100", "1200", "1300", "1400", "1500", "1600", "1700", "1800", "1900", "1a00"]
+#dvfss = ["1", "0c00", "0d00", "0e00", "0f00", "1000", "1100", "1200", "1300", "1400", "1500", "1600", "1700", "1800", "1900"]
+dvfss = ["1"]
     
 #2600000
 #TIME_CONVERSION_khz = 1./(2899999*1000
@@ -227,17 +233,19 @@ def parse(loc1):
     tjoules = 0.0
     tnum_interrupts = 0
     ttimestamp = 0
-        
+    trefcycorig = 0
+    ttimestamp_orig=0
+    
     nrepeat = 10
     resetdf()
     print(df_dict)
 
-    for rate in [300000]:
+    for rate in qpss:
         for itr in itrs:
             for dvfs in dvfss:
                 for policy in policies:
                     for i in range(nrepeat):                                    
-                        loc=f"{loc1}/query1_cores16_frate{rate}_600000_fbuff-1_itr{itr}_{policy}dvfs{dvfs}_repeat{i}/"
+                        loc=f"{loc1}/query1_cores16_frate{rate}_600000_fbuff-1_itr{itr}_{policy}dvfs{dvfs}_source16_mapper16_sink16_repeat{i}/"
                         if not path.exists(loc):
                             break
                 
@@ -266,14 +274,18 @@ def parse(loc1):
                         for core in range(0, 16):
                             fname=f"{loc}/ITRlogs/linux.flink.dmesg._{core}_{i}"
                             df = pd.read_csv(fname, sep=' ', names=LINUX_COLS)
+                            df['ref_cycles_orig'] = df.loc[:,'ref_cycles']
+                            df['timestamp_orig'] = df.loc[:, 'timestamp']
                             df_non0j = df[(df['joules']>0) & (df['instructions'] > 0) & (df['cycles'] > 0) & (df['ref_cycles'] > 0) & (df['llc_miss'] > 0)].copy()
-                            df_non0j['timestamp'] = df_non0j['timestamp'] - df_non0j['timestamp'].min()
+                            df_non0j['timestamp_orig'] = df_non0j['timestamp_orig'] - df_non0j['timestamp_orig'].min()
+                            df_non0j['timestamp'] = df_non0j['timestamp'] - df_non0j['timestamp'].min()                            
                             df_non0j['timestamp'] = df_non0j['timestamp'] * TIME_CONVERSION_khz
+                            
                             df_non0j['ref_cycles'] = df_non0j['ref_cycles'] * TIME_CONVERSION_khz
                             df_non0j['joules'] = df_non0j['joules'] * JOULE_CONVERSION
                             df_non0j = df_non0j[(df_non0j['timestamp'] > 300) & (df_non0j['timestamp'] < 600)]
                     
-                            tmp = df_non0j[['instructions', 'cycles', 'ref_cycles', 'llc_miss', 'joules', 'c0', 'c1', 'c1e', 'c3', 'c6', 'c7','timestamp']].diff()
+                            tmp = df_non0j[['instructions', 'cycles', 'ref_cycles', 'ref_cycles_orig', 'llc_miss', 'joules', 'c0', 'c1', 'c1e', 'c3', 'c6', 'c7', 'timestamp', 'timestamp_orig']].diff()
                             tmp.columns = [f'{c}_diff' for c in tmp.columns]
                             df_non0j = pd.concat([df_non0j, tmp], axis=1)
                             df_non0j.dropna(inplace=True)
@@ -292,6 +304,7 @@ def parse(loc1):
                             tins += df_non0j['instructions_diff'].sum()
                             tcyc += df_non0j['cycles_diff'].sum()
                             trefcyc += df_non0j['ref_cycles_diff'].sum()
+                            trefcycorig += df_non0j['ref_cycles_orig_diff'].sum()
                             
                             tllcm += df_non0j['llc_miss_diff'].sum()
                             tc1 += df_non0j['c1_diff'].sum()
@@ -301,6 +314,7 @@ def parse(loc1):
                             tc7 += df_non0j['c7_diff'].sum()
                             tnum_interrupts += df.shape[0]
                             ttimestamp += df_non0j['timestamp_diff'].sum()
+                            ttimestamp_orig += df_non0j['timestamp_orig_diff'].sum()
                             #print(df_non0j['timestamp_diff'].sum())
                         df_dict2['i'].append(i)
                         df_dict2['itr'].append(itr)
@@ -319,14 +333,17 @@ def parse(loc1):
                         df_dict2['instructions'].append(tins)
                         df_dict2['cycles'].append(tcyc)
                         df_dict2['ref_cycles'].append(trefcyc)
+                        df_dict2['ref_cycles_orig'].append(trefcycorig)
                         df_dict2['llc_miss'].append(int(tllcm))
                         df_dict2['num_interrupts'].append(tnum_interrupts)
                         df_dict2['time'].append(ttimestamp)
+                        df_dict2['timestamp_orig'].append(ttimestamp_orig)
 
     dd1 = pd.DataFrame(df_dict)
     
     dd2 = pd.DataFrame(df_dict2)
     dd3 = dd1.merge(dd2, on=['i', 'itr', 'dvfs', 'rate', 'policy'])
+    #dd3.index += 390
     dd3.to_csv(f"{loc1}/combined.csv")
 
 if __name__ == '__main__':
@@ -335,4 +352,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     loc=args.log
-    parse(loc)
+    try:        
+        parse(loc)
+    except Exception as error:
+        print(error)
+        
