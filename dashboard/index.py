@@ -9,7 +9,7 @@ import pandas as pd
 
 from app import app
 from apps import *
-from apps import homepage, flink11_3_2023_100K, flink11_3_2023_300K, flink11_3_2023_200K, flink11_3_2023_400K, results, launch 
+from apps import homepage, flink11_3_2023_100K, flink11_3_2023_300K, flink11_3_2023_200K, flink11_3_2023_400K, flink11_16_2023, flink11_28_2023, flink_query1tscnopin, flink_query1tsc1357, flink_query1tsc2468, results, launch 
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -60,6 +60,11 @@ sidebar = html.Div(
                                 dbc.NavLink("Flink_11_3_2023_200K", href="/apps/flink11_3_2023_200K", active="exact"),
                                 dbc.NavLink("Flink_11_3_2023_300K", href="/apps/flink11_3_2023_300K", active="exact"),
                                 dbc.NavLink("Flink_11_3_2023_400K", href="/apps/flink11_3_2023_400K", active="exact"),
+                                dbc.NavLink("Flink_11_16_2023", href="/apps/flink11_16_2023", active="exact"),
+                                dbc.NavLink("Flink_11_28_2023", href="/apps/flink11_28_2023", active="exact"), 
+                                dbc.NavLink("Flink_query1tscnopin", href="/apps/flink_query1tscnopin", active="exact"),
+                                dbc.NavLink("Flink_query1tsc1357", href="/apps/flink_query1tsc1357", active="exact"),
+                                dbc.NavLink("Flink_query1tsc2468", href="/apps/flink_query1tsc2468", active="exact"),
                             ], title="Query 1", id="query1"
                         ),
                         dbc.AccordionItem(
@@ -108,6 +113,16 @@ def render_page_content(pathname):
         return flink11_3_2023_300K.layout
     elif pathname == '/apps/flink11_3_2023_400K':
         return flink11_3_2023_400K.layout
+    elif pathname == '/apps/flink11_16_2023':
+        return flink11_16_2023.layout
+    elif pathname == '/apps/flink11_28_2023':
+        return flink11_28_2023.layout
+    elif pathname == '/apps/flink_query1tscnopin':
+        return flink_query1tscnopin.layout
+    elif pathname == '/apps/flink_query1tsc1357':
+        return flink_query1tsc1357.layout
+    elif pathname == '/apps/flink_query1tsc2468':
+        return flink_query1tsc2468.layout
     elif pathname == '/apps/results':
         return results.layout
     elif pathname == '/apps/launch':

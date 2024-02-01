@@ -249,7 +249,7 @@ def parse(loc1):
                 for policy in policies:
                     for mapper in mappers:
                         for i in range(nrepeat):                                    
-                            loc=f"{loc1}/query1_cores16_frate{rate}_300000_fbuff-1_itr{itr}_{policy}dvfs{dvfs}_source16_mapper{mapper}_sink16_repeat{i}/"
+                            loc=f"{loc1}/query1tscnopin_cores16_frate{rate}_300000_fbuff-1_itr{itr}_{policy}dvfs{dvfs}_source16_mapper{mapper}_sink16_repeat{i}/"
                             if not path.exists(loc):
                                 break
                         

@@ -18,6 +18,7 @@ policies = ["ondemand", "conservative","performance", "schedutil", "powersave"]
 itrs = [1]
 qpss = [80000, 100000, 120000, 200000, 300000, 400000]
 mappers = [4, 8, 12, 16]
+ncores = [4, 8, 12, 16]
 #qpss = [400000]
 #itrs = [600]
 #dvfss = ["1", "0c00", "0d00", "0e00", "0f00", "1000", "1100", "1200", "1300", "1400", "1500", "1600", "1700", "1800", "1900", "1a00"]
@@ -217,7 +218,7 @@ df_dict2 = {
 }
 
 
-def parse(loc1):
+def parse(loc1, name):
     mqps = 0
     cqps = 0
     tins = 0
@@ -248,111 +249,126 @@ def parse(loc1):
             for dvfs in dvfss:
                 for policy in policies:
                     for mapper in mappers:
-                        for i in range(nrepeat):                                    
-                            loc=f"{loc1}/query1_cores16_frate{rate}_300000_fbuff-1_itr{itr}_{policy}dvfs{dvfs}_source16_mapper{mapper}_sink16_repeat{i}/"
-                            if not path.exists(loc):
-                                break
+                        for cores in ncores:
+                            for i in range(nrepeat):                            
+                                loc=f"{loc1}/{name}_cores{cores}_frate{rate}_300000_fbuff-1_itr{itr}_{policy}dvfs{dvfs}_source16_mapper{mapper}_sink16_repeat{i}/"
+                                if not path.exists(loc):
+                                    break
                         
-                            print(f"parsing {loc}")
-                            parseFile(loc, rate, itr, dvfs, policy, i, mapper)
+                                print(f"parsing {loc}")
+                                parseFile(loc, rate, itr, dvfs, policy, i, mapper)
                         
-                            mqps = 0
-                            cqps = 0
-                            tins = 0
-                            tcyc = 0
-                            trefcyc = 0
-                            tllcm = 0
-                            tc3 = 0
-                            tc6 = 0
-                            tc7 = 0
-                            tc1 = 0
-                            tc1e = 0
-                            trx_desc = 0
-                            trx_bytes = 0
-                            ttx_desc = 0
-                            ttx_bytes = 0
-                            tjoules = 0.0
-                            tnum_interrupts = 0
-                            ttimestamp = 0
+                                mqps = 0
+                                cqps = 0
+                                tins = 0
+                                tcyc = 0
+                                trefcyc = 0
+                                tllcm = 0
+                                tc3 = 0
+                                tc6 = 0
+                                tc7 = 0
+                                tc1 = 0
+                                tc1e = 0
+                                trx_desc = 0
+                                trx_bytes = 0
+                                ttx_desc = 0
+                                ttx_bytes = 0
+                                tjoules = 0.0
+                                minjoules = 9999999.0
+                                maxjoules = 0.0
+                                tnum_interrupts = 0
+                                ttimestamp = 0
                         
-                            for core in range(0, 16):
-                                fname=f"{loc}/ITRlogs/linux.flink.dmesg._{core}_{i}"
-                                df = pd.read_csv(fname, sep=' ', names=LINUX_COLS)
-                                df_non0j = df[(df['joules']>0) & (df['instructions'] > 0) & (df['cycles'] > 0) & (df['ref_cycles'] > 0) & (df['llc_miss'] > 0)].copy()
-                                df_non0j['timestamp'] = df_non0j['timestamp'] - df_non0j['timestamp'].min()                            
-                                df_non0j['timestamp'] = df_non0j['timestamp'] * TIME_CONVERSION_khz
-                            
-                                df_non0j['ref_cycles'] = df_non0j['ref_cycles'] * TIME_CONVERSION_khz
-                                df_non0j['joules'] = df_non0j['joules'] * JOULE_CONVERSION
-                                df_non0j = df_non0j[(df_non0j['timestamp'] > 120) & (df_non0j['timestamp'] < 300)]
-                            
-                                tmp = df_non0j[['instructions', 'cycles', 'ref_cycles', 'llc_miss', 'joules', 'c0', 'c1', 'c1e', 'c3', 'c6', 'c7', 'timestamp']].diff()
-                                tmp.columns = [f'{c}_diff' for c in tmp.columns]
-                                df_non0j = pd.concat([df_non0j, tmp], axis=1)
-                                df_non0j.dropna(inplace=True)
-                                df.dropna(inplace=True)
-                                df_non0j = df_non0j[df_non0j['joules_diff'] > 0]
+                                for core in range(0, cores):
+                                    fname=f"{loc}/ITRlogs/linux.flink.dmesg._{core}_{i}"
+                                    df = pd.read_csv(fname, sep=' ', names=LINUX_COLS)
+                                    df_non0j = df[(df['joules']>0) & (df['instructions'] > 0) & (df['cycles'] > 0) & (df['ref_cycles'] > 0) & (df['llc_miss'] > 0)].copy()
+                                    df_non0j['timestamp'] = df_non0j['timestamp'] - df_non0j['timestamp'].min()                            
+                                    df_non0j['timestamp'] = df_non0j['timestamp'] * TIME_CONVERSION_khz
+                                    
+                                    df_non0j['ref_cycles'] = df_non0j['ref_cycles'] * TIME_CONVERSION_khz
+                                    df_non0j['joules'] = df_non0j['joules'] * JOULE_CONVERSION
+                                    df_non0j = df_non0j[(df_non0j['timestamp'] > 120) & (df_non0j['timestamp'] < 300)]
+                                    
+                                    tmp = df_non0j[['instructions', 'cycles', 'ref_cycles', 'llc_miss', 'joules', 'c0', 'c1', 'c1e', 'c3', 'c6', 'c7', 'timestamp']].diff()
+                                    tmp.columns = [f'{c}_diff' for c in tmp.columns]
+                                    df_non0j = pd.concat([df_non0j, tmp], axis=1)
+                                    df_non0j.dropna(inplace=True)
+                                    df.dropna(inplace=True)
+                                    df_non0j = df_non0j[df_non0j['joules_diff'] > 0]
+                                    
+                                    cjoules = df_non0j['joules_diff'].sum()
+                                    
+                                    print(f"core {core} : {round(cjoules/180.0, 2)} Watts")
+                                    maxjoules = max(maxjoules, cjoules)
+                                    minjoules = min(minjoules, cjoules)
                                 
-                                cjoules = df_non0j['joules_diff'].sum()
-                                print(f"core {core} : {round(cjoules/180.0, 2)} Watts")
-                                if core == 0 or core == 1:
-                                    tjoules += cjoules
-                                
-                                trx_desc += df_non0j['rx_desc'].sum()
-                                trx_bytes += df_non0j['rx_bytes'].sum()
-                                ttx_desc += df_non0j['tx_desc'].sum()
-                                ttx_bytes += df_non0j['tx_bytes'].sum()
-                                
-                                tins += df_non0j['instructions_diff'].sum()
-                                tcyc += df_non0j['cycles_diff'].sum()
-                                trefcyc += df_non0j['ref_cycles_diff'].sum()
-                            
-                                tllcm += df_non0j['llc_miss_diff'].sum()
-                                tc1 += df_non0j['c1_diff'].sum()
-                                tc1e += df_non0j['c1e_diff'].sum()
-                                tc3 += df_non0j['c3_diff'].sum()
-                                tc6 += df_non0j['c6_diff'].sum()
-                                tc7 += df_non0j['c7_diff'].sum()
-                                tnum_interrupts += df.shape[0]
-                                ttimestamp += df_non0j['timestamp_diff'].sum()
-                                #print(df_non0j['timestamp_diff'].sum())
-                            df_dict2['i'].append(i)
-                            df_dict2['itr'].append(itr)
-                            df_dict2['nmappers'].append(mapper)
-                            if '0x'+str(dvfs) in dvfs_dict:
-                                df_dict2['dvfs'].append(dvfs_dict['0x'+str(dvfs)])
-                            else:
-                                df_dict2['dvfs'].append(dvfs)
-                                #df_dict2['dvfs'].append(dvfs)
-                            df_dict2['policy'].append(policy)
-                            df_dict2['rate'].append(rate)
-                            df_dict2['joules'].append(round(tjoules/180.0, 2))
-                            df_dict2['rxDescIntLog'].append(trx_desc)
-                            df_dict2['rxBytesIntLog'].append(trx_bytes)
-                            df_dict2['txDescIntLog'].append(ttx_desc)
-                            df_dict2['txBytesIntLog'].append(ttx_bytes)
-                            df_dict2['instructions'].append(tins)
-                            df_dict2['cycles'].append(tcyc)
-                            df_dict2['ref_cycles'].append(trefcyc)
-                            df_dict2['llc_miss'].append(int(tllcm))
-                            df_dict2['num_interrupts'].append(tnum_interrupts)
-                            df_dict2['time'].append(ttimestamp)
+                                    trx_desc += df_non0j['rx_desc'].sum()
+                                    trx_bytes += df_non0j['rx_bytes'].sum()
+                                    ttx_desc += df_non0j['tx_desc'].sum()
+                                    ttx_bytes += df_non0j['tx_bytes'].sum()
+                                    
+                                    tins += df_non0j['instructions_diff'].sum()
+                                    tcyc += df_non0j['cycles_diff'].sum()
+                                    trefcyc += df_non0j['ref_cycles_diff'].sum()
+                                    
+                                    tllcm += df_non0j['llc_miss_diff'].sum()
+                                    tc1 += df_non0j['c1_diff'].sum()
+                                    tc1e += df_non0j['c1e_diff'].sum()
+                                    tc3 += df_non0j['c3_diff'].sum()
+                                    tc6 += df_non0j['c6_diff'].sum()
+                                    tc7 += df_non0j['c7_diff'].sum()
+                                    tnum_interrupts += df.shape[0]
+                                    ttimestamp += df_non0j['timestamp_diff'].sum()
+                                    #print(df_non0j['timestamp_diff'].sum())
 
+                                    #tjoules = max(minjoules, maxjoules)
+                                    tjoules = minjoules+maxjoules
+                                    
+                                df_dict2['i'].append(i)
+                                df_dict2['itr'].append(itr)
+                                df_dict2['nmappers'].append(mapper)
+                                if '0x'+str(dvfs) in dvfs_dict:
+                                    df_dict2['dvfs'].append(dvfs_dict['0x'+str(dvfs)])
+                                else:
+                                    df_dict2['dvfs'].append(dvfs)
+                                #df_dict2['dvfs'].append(dvfs)
+                                df_dict2['policy'].append(policy)
+                                df_dict2['rate'].append(rate)
+                                df_dict2['joules'].append(round(tjoules/180.0, 2))
+                                df_dict2['rxDescIntLog'].append(trx_desc)
+                                df_dict2['rxBytesIntLog'].append(trx_bytes)
+                                df_dict2['txDescIntLog'].append(ttx_desc)
+                                df_dict2['txBytesIntLog'].append(ttx_bytes)
+                                df_dict2['instructions'].append(tins)
+                                df_dict2['cycles'].append(tcyc)
+                                df_dict2['ref_cycles'].append(trefcyc)
+                                df_dict2['llc_miss'].append(int(tllcm))
+                                df_dict2['num_interrupts'].append(tnum_interrupts)
+                                df_dict2['time'].append(ttimestamp)
+                                print(f"Package: {round(tjoules/180.0, 2)} W")
+                                    
     dd1 = pd.DataFrame(df_dict)
-    
+    print(len(dd1.index))
     dd2 = pd.DataFrame(df_dict2)
+    print(len(dd2.index))
+    
     dd3 = dd1.merge(dd2, on=['i', 'itr', 'dvfs', 'rate', 'policy', 'nmappers'])
+    print(len(dd3.index))
     #dd3.index += 390
-    dd3.to_csv(f"{loc1}/combined.csv")
+    dd3.to_csv(f"{loc1}/combined.csv", mode='w')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--log", help="log location", required=True)
+    parser.add_argument("--name", help="ie query1", default="query1", required=True)
     args = parser.parse_args()
     
     loc=args.log
+    name=args.name
+    
     try:        
-        parse(loc)
+        parse(loc, name)
     except Exception as error:
         print(error)
         

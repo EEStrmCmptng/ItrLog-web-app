@@ -491,5 +491,6 @@ for i in range(1, 3):
             df_non0j = pd.concat([df_non0j, tmp], axis=1)
             df_non0j.dropna(inplace=True)
             df_non0j = df_non0j[df_non0j['joules_diff'] > 0]
-            fig1.add_trace(go.Scatter(x=df_non0j['timestamp'], y=df_non0j[yaxis], name=f"Core {core}"))
+            fig1.add_trace(go.Scatter(x=df_non0j['timestamp'], y=df_non0j[yaxis], fill='tozeroy',
+                                      mode='none'))
         return fig1

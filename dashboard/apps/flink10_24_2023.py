@@ -35,8 +35,8 @@ rdvfs_dict = {
 
 itrlist = [1, 2, 50, 100, 200, 400, 600, 800]
 
-loc='/home/handong/flink/11_3_2023_5.15.89_itrlog/'
-workload_loc='/home/handong/flink/11_3_2023_5.15.89_itrlog/combined.csv'
+loc='/home/handong/flink/10_24_2023_5.15.89_itrlog/'
+workload_loc='/home/handong/flink/10_24_2023_5.15.89_itrlog/combined.csv'
 
 TIME_CONVERSION_khz = 1./(2600000*1000)
 JOULE_CONVERSION = 0.00001526
@@ -63,35 +63,35 @@ layout = html.Div([
     html.Br(),
     
     html.Div([
-        dcc.Dropdown(id='flink_11_3_2023_300K-xaxis-selector-1', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
-        dcc.Dropdown(id='flink_11_3_2023_300K-yaxis-selector-1', value='joules', style={'width':'60%'}, options=axis_values),        
+        dcc.Dropdown(id='flink_10_24_2023-xaxis-selector-1', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink_10_24_2023-yaxis-selector-1', value='joules', style={'width':'60%'}, options=axis_values),        
         dcc.Graph(
-            id='flink_11_3_2023_300K-custom-scatter-1', style={'display': 'inline-block'}
+            id='flink_10_24_2023-custom-scatter-1', style={'display': 'inline-block'}
         )
     ], style={'display': 'inline-block'}),
         
     html.Div([
-        dcc.Dropdown(id='flink_11_3_2023_300K-xaxis-selector-2', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
-        dcc.Dropdown(id='flink_11_3_2023_300K-yaxis-selector-2', value='instructions', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink_10_24_2023-xaxis-selector-2', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink_10_24_2023-yaxis-selector-2', value='instructions', style={'width':'60%'}, options=axis_values),
         dcc.Graph(
-            id='flink_11_3_2023_300K-custom-scatter-2', style={'display': 'inline-block'}
+            id='flink_10_24_2023-custom-scatter-2', style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
 
     html.Div([
-        dcc.Dropdown(id='flink_11_3_2023_300K-xaxis-selector-3', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
-        dcc.Dropdown(id='flink_11_3_2023_300K-yaxis-selector-3', value='ref_cycles', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink_10_24_2023-xaxis-selector-3', value='SourcenumRecordsOutPerSecond_avg', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink_10_24_2023-yaxis-selector-3', value='ref_cycles', style={'width':'60%'}, options=axis_values),
         dcc.Graph(
-            id='flink_11_3_2023_300K-custom-scatter-3',
+            id='flink_10_24_2023-custom-scatter-3',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
 
     html.Div([
-        dcc.Dropdown(id='flink_11_3_2023_300K-xaxis-selector-4', value='rxBytes', style={'width':'60%'}, options=axis_values),
-        dcc.Dropdown(id='flink_11_3_2023_300K-yaxis-selector-4', value='rxBytesIntLog', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink_10_24_2023-xaxis-selector-4', value='rxBytes', style={'width':'60%'}, options=axis_values),
+        dcc.Dropdown(id='flink_10_24_2023-yaxis-selector-4', value='rxBytesIntLog', style={'width':'60%'}, options=axis_values),
         dcc.Graph(
-            id='flink_11_3_2023_300K-custom-scatter-4',
+            id='flink_10_24_2023-custom-scatter-4',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
@@ -102,41 +102,41 @@ layout = html.Div([
         html.Br()
     ]),
     html.P('ITERATION: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-per-mappersourcesink-itera-1',
+        dcc.Dropdown(id='flink_10_24_2023-per-mappersourcesink-itera-1',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 10)],
                      placeholder="Select a iteration number"),
     html.P('TYPE: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-per-mappersourcesink-typem-1',
+        dcc.Dropdown(id='flink_10_24_2023-per-mappersourcesink-typem-1',
                      value="Mapper",
                      style={'width':'60%'},
                      options=["Mapper", "Sink", "Source"],
                      placeholder="Select type [Mapper, Sink, Source]"),
     html.P('Y-AXIS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-per-mappersourcesink-yaxis-1',
+        dcc.Dropdown(id='flink_10_24_2023-per-mappersourcesink-yaxis-1',
                      value='numRecordsOutPerSecond',
                      style={'width':'60%'},
                      options=['numRecordsInPerSecond', 'numRecordsOutPerSecond', 'busyTimeMsPerSecond', 'backPressuredTimeMsPerSecond', 'idleTimeMsPerSecond', 'duration', 'read-bytes', 'write-bytes', 'read-records', 'write-records'],
                      placeholder="Select y-axis value",),
     html.P('POLICY: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-per-mappersourcesink-policy-1',
+        dcc.Dropdown(id='flink_10_24_2023-per-mappersourcesink-policy-1',
                      value="ondemand",
                      style={'width':'60%'},
                      options=["ondemand", "conservative","performance", "schedutil", "powersave", "userspace"]),
     html.P('ITR: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-per-mappersourcesink-itr-1',
+        dcc.Dropdown(id='flink_10_24_2023-per-mappersourcesink-itr-1',
                      value=1,
                      style={'width':'60%'},
                      options=itrlist),
     html.P('DVFS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-per-mappersourcesink-dvfs-1',
+        dcc.Dropdown(id='flink_10_24_2023-per-mappersourcesink-dvfs-1',
                      value=1,
                      style={'width':'60%'},
                      options=[1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]),
     
     dcc.Graph(
-        id='flink_11_3_2023_300K-per-mappersourcesink-1',
+        id='flink_10_24_2023-per-mappersourcesink-1',
         style={'display': 'inline-block'}
     ),
     
@@ -148,82 +148,82 @@ layout = html.Div([
     ]),
     html.Div([
         html.P('Y-AXIS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-xaxis-selector-5',
+        dcc.Dropdown(id='flink_10_24_2023-xaxis-selector-5',
                      value='timestamp_diff',
                      style={'width':'60%'},
                      options=taxis_values,
                      placeholder="Select y-axis value",),
         html.P('CORE: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-yaxis-selector-5',
+        dcc.Dropdown(id='flink_10_24_2023-yaxis-selector-5',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 16)],
                      placeholder="Select core"),
         
         html.P('ITERATION: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-zaxis-selector-5',
+        dcc.Dropdown(id='flink_10_24_2023-zaxis-selector-5',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 10)],
                      placeholder="Select a iteration number",),
         html.P('POLICY: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-aaxis-selector-5',
+        dcc.Dropdown(id='flink_10_24_2023-aaxis-selector-5',
                      value="ondemand",
                      style={'width':'60%'},
                      options=["ondemand", "conservative","performance", "schedutil", "powersave", "userspace"]),
         html.P('ITR: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-baxis-selector-5',
+        dcc.Dropdown(id='flink_10_24_2023-baxis-selector-5',
                      value=1,
                      style={'width':'60%'},
                      options=itrlist),
         html.P('DVFS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-caxis-selector-5',
+        dcc.Dropdown(id='flink_10_24_2023-caxis-selector-5',
                      value=1,
                      style={'width':'60%'},
                      options=[1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]),
         dcc.Graph(
-            id='flink_11_3_2023_300K-custom-scatter-5',
+            id='flink_10_24_2023-custom-scatter-5',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
 
     html.Div([
         html.P('Y-AXIS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-xaxis-selector-6',
+        dcc.Dropdown(id='flink_10_24_2023-xaxis-selector-6',
                      value='timestamp_diff',
                      style={'width':'60%'},
                      options=taxis_values,
                      placeholder="Select y-axis value",),
         html.P('CORE: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-yaxis-selector-6',
+        dcc.Dropdown(id='flink_10_24_2023-yaxis-selector-6',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 16)],
                      placeholder="Select core"),
         
         html.P('ITERATION: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-zaxis-selector-6',
+        dcc.Dropdown(id='flink_10_24_2023-zaxis-selector-6',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 10)],
                      placeholder="Select a iteration number",),
         html.P('POLICY: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-aaxis-selector-6',
+        dcc.Dropdown(id='flink_10_24_2023-aaxis-selector-6',
                      value="ondemand",
                      style={'width':'60%'},
                      options=["ondemand", "conservative","performance", "schedutil", "powersave", "userspace"]),
         html.P('ITR: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-baxis-selector-6',
+        dcc.Dropdown(id='flink_10_24_2023-baxis-selector-6',
                      value=1,
                      style={'width':'60%'},
                      options=itrlist),
         html.P('DVFS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-caxis-selector-6',
+        dcc.Dropdown(id='flink_10_24_2023-caxis-selector-6',
                      value=1,
                      style={'width':'60%'},
                      options=[1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]),
         dcc.Graph(
-            id='flink_11_3_2023_300K-custom-scatter-6',
+            id='flink_10_24_2023-custom-scatter-6',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
@@ -236,68 +236,68 @@ layout = html.Div([
 
     html.Div([
         html.P('Y-AXIS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-yaxis-1',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-yaxis-1',
                      value='timestamp_diff',
                      style={'width':'60%'},
                      options=taxis_values,
                      placeholder="Select y-axis value",),        
         html.P('ITERATION: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-itera-1',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-itera-1',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 10)],
                      placeholder="Select a iteration number",),
         html.P('POLICY: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-policy-1',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-policy-1',
                      value="ondemand",
                      style={'width':'60%'},
                      options=["ondemand", "conservative","performance", "schedutil", "powersave", "userspace"]),
         html.P('ITR: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-itr-1',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-itr-1',
                      value=1,
                      style={'width':'60%'},
                      options=itrlist),
         html.P('DVFS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-dvfs-1',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-dvfs-1',
                      value=1,
                      style={'width':'60%'},
                      options=[1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]),
         dcc.Graph(
-            id='flink_11_3_2023_300K-intlogagg-1',
+            id='flink_10_24_2023-intlogagg-1',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
 
         html.Div([
         html.P('Y-AXIS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-yaxis-2',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-yaxis-2',
                      value='timestamp_diff',
                      style={'width':'60%'},
                      options=taxis_values,
                      placeholder="Select y-axis value",),        
         html.P('ITERATION: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-itera-2',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-itera-2',
                      value=0,
                      style={'width':'60%'},
                      options=[x for x in range(0, 10)],
                      placeholder="Select a iteration number",),
         html.P('POLICY: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-policy-2',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-policy-2',
                      value="ondemand",
                      style={'width':'60%'},
                      options=["ondemand", "conservative","performance", "schedutil", "powersave", "userspace"]),
         html.P('ITR: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-itr-2',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-itr-2',
                      value=1,
                      style={'width':'60%'},
                      options=itrlist),
         html.P('DVFS: ', style={'display': 'inline-block'}),
-        dcc.Dropdown(id='flink_11_3_2023_300K-intlogagg-dvfs-2',
+        dcc.Dropdown(id='flink_10_24_2023-intlogagg-dvfs-2',
                      value=1,
                      style={'width':'60%'},
                      options=[1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]),
         dcc.Graph(
-            id='flink_11_3_2023_300K-intlogagg-2',
+            id='flink_10_24_2023-intlogagg-2',
             style={'display': 'inline-block'}
         ),
     ], style={'display': 'inline-block'}),
@@ -307,9 +307,9 @@ layout = html.Div([
 
 for i in range(1, 5):
     @app.callback(
-        Output('flink_11_3_2023_300K-custom-scatter-'+str(i), 'figure'),
-        [Input('flink_11_3_2023_300K-xaxis-selector-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-yaxis-selector-'+str(i), 'value')]
+        Output('flink_10_24_2023-custom-scatter-'+str(i), 'figure'),
+        [Input('flink_10_24_2023-xaxis-selector-'+str(i), 'value'),
+         Input('flink_10_24_2023-yaxis-selector-'+str(i), 'value')]
     )
     def update_custom_scatter(xcol, ycol):
         fig = px.scatter(df_comb, 
@@ -322,14 +322,14 @@ for i in range(1, 5):
         return fig
 
 for i in range(1, 2):
-    @app.callback(#flink_11_3_2023_300K-per-mappersourcesink-1
-        Output(f"flink_11_3_2023_300K-per-mappersourcesink-{i}", 'figure'),
-        [Input(f"flink_11_3_2023_300K-per-mappersourcesink-itera-{i}", 'value'),
-         Input(f"flink_11_3_2023_300K-per-mappersourcesink-typem-{i}", 'value'),
-         Input(f"flink_11_3_2023_300K-per-mappersourcesink-yaxis-{i}", 'value'),
-         Input(f"flink_11_3_2023_300K-per-mappersourcesink-policy-{i}", 'value'),
-         Input(f"flink_11_3_2023_300K-per-mappersourcesink-itr-{i}", 'value'),
-         Input(f"flink_11_3_2023_300K-per-mappersourcesink-dvfs-{i}", 'value')]
+    @app.callback(#flink_10_24_2023-per-mappersourcesink-1
+        Output(f"flink_10_24_2023-per-mappersourcesink-{i}", 'figure'),
+        [Input(f"flink_10_24_2023-per-mappersourcesink-itera-{i}", 'value'),
+         Input(f"flink_10_24_2023-per-mappersourcesink-typem-{i}", 'value'),
+         Input(f"flink_10_24_2023-per-mappersourcesink-yaxis-{i}", 'value'),
+         Input(f"flink_10_24_2023-per-mappersourcesink-policy-{i}", 'value'),
+         Input(f"flink_10_24_2023-per-mappersourcesink-itr-{i}", 'value'),
+         Input(f"flink_10_24_2023-per-mappersourcesink-dvfs-{i}", 'value')]
     )
     def update_mappersourcesink(itera, typem, yaxis, policy, itr, dvfs):
         fig = go.Figure()
@@ -351,7 +351,7 @@ for i in range(1, 2):
                     'write-records':[]
                 }
                 
-                ff = open(f"{loc}/query1_cores16_frate300000_600000_fbuff-1_itr{itr}_{policy}dvfs{rdvfs_dict[dvfs]}_source16_mapper16_sink16_repeat{itera}/Flinklogs/Operator_Mapper_{i}").readlines()
+                ff = open(f"{loc}/query1_cores16_frate300000_600000_fbuff-1_itr{itr}_{policy}dvfs{rdvfs_dict[dvfs]}_source16_mapper16_sink4_repeat{itera}/Flinklogs/Operator_Mapper_{i}").readlines()
                 for _ll, _lc in enumerate(ff):
                     for lc in _lc.split('; '):
                         for kw in kwlist.keys():
@@ -380,7 +380,7 @@ for i in range(1, 2):
                     'write-records':[]
                 }
                 
-                ff = open(f"{loc}/query1_cores16_frate300000_600000_fbuff-1_itr{itr}_{policy}dvfs{rdvfs_dict[dvfs]}_source16_mapper16_sink16_repeat{itera}/Flinklogs/Operator_Source: Bids Source_{i}").readlines()
+                ff = open(f"{loc}/query1_cores16_frate300000_600000_fbuff-1_itr{itr}_{policy}dvfs{rdvfs_dict[dvfs]}_source16_mapper16_sink4_repeat{itera}/Flinklogs/Operator_Source: Bids Source_{i}").readlines()
                 for _ll, _lc in enumerate(ff):
                     for lc in _lc.split('; '):
                         for kw in kwlist.keys():
@@ -409,7 +409,7 @@ for i in range(1, 2):
                     'write-records':[]
                 }
                 
-                ff = open(f"{loc}/query1_cores16_frate300000_600000_fbuff-1_itr{itr}_{policy}dvfs{rdvfs_dict[dvfs]}_source16_mapper16_sink16_repeat{itera}/Flinklogs/Operator_Latency Sink_{i}").readlines()
+                ff = open(f"{loc}/query1_cores16_frate300000_600000_fbuff-1_itr{itr}_{policy}dvfs{rdvfs_dict[dvfs]}_source16_mapper16_sink4_repeat{itera}/Flinklogs/Operator_Latency Sink_{i}").readlines()
                 for _ll, _lc in enumerate(ff):
                     for lc in _lc.split('; '):
                         for kw in kwlist.keys():
@@ -427,17 +427,17 @@ for i in range(1, 2):
         
 for i in range(5, 7):
     @app.callback(
-        Output('flink_11_3_2023_300K-custom-scatter-'+str(i), 'figure'),
-        [Input('flink_11_3_2023_300K-xaxis-selector-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-yaxis-selector-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-zaxis-selector-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-aaxis-selector-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-baxis-selector-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-caxis-selector-'+str(i), 'value')]
+        Output('flink_10_24_2023-custom-scatter-'+str(i), 'figure'),
+        [Input('flink_10_24_2023-xaxis-selector-'+str(i), 'value'),
+         Input('flink_10_24_2023-yaxis-selector-'+str(i), 'value'),
+         Input('flink_10_24_2023-zaxis-selector-'+str(i), 'value'),
+         Input('flink_10_24_2023-aaxis-selector-'+str(i), 'value'),
+         Input('flink_10_24_2023-baxis-selector-'+str(i), 'value'),
+         Input('flink_10_24_2023-caxis-selector-'+str(i), 'value')]
     )
     def update_custom_scatter2(xcol, ycol, zcol, acol, bcol, ccol):
         df = pd.DataFrame()
-        fname=f"/home/handong/flink/11_3_2023_5.15.89_itrlog/query1_cores16_frate300000_600000_fbuff-1_itr{bcol}_{acol}dvfs{rdvfs_dict[ccol]}_source16_mapper16_sink16_repeat{zcol}/ITRlogs/linux.flink.dmesg._{ycol}_{zcol}"
+        fname=f"/home/handong/flink/10_24_2023_5.15.89_itrlog/query1_cores16_frate300000_600000_fbuff-1_itr{bcol}_{acol}dvfs{rdvfs_dict[ccol]}_source16_mapper16_sink4_repeat{zcol}/ITRlogs/linux.flink.dmesg._{ycol}_{zcol}"
         df = pd.read_csv(fname, sep=' ', names=LINUX_COLS)
         df_non0j = df[(df['joules']>0) & (df['instructions'] > 0) & (df['cycles'] > 0) & (df['ref_cycles'] > 0) & (df['llc_miss'] > 0)]
         df_non0j['timestamp'] = df_non0j['timestamp'] - df_non0j['timestamp'].min()
@@ -464,12 +464,12 @@ for i in range(5, 7):
 
 for i in range(1, 3):
     @app.callback(
-        Output('flink_11_3_2023_300K-intlogagg-'+str(i), 'figure'),
-        [Input('flink_11_3_2023_300K-intlogagg-yaxis-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-intlogagg-itera-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-intlogagg-policy-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-intlogagg-itr-'+str(i), 'value'),
-         Input('flink_11_3_2023_300K-intlogagg-dvfs-'+str(i), 'value')]
+        Output('flink_10_24_2023-intlogagg-'+str(i), 'figure'),
+        [Input('flink_10_24_2023-intlogagg-yaxis-'+str(i), 'value'),
+         Input('flink_10_24_2023-intlogagg-itera-'+str(i), 'value'),
+         Input('flink_10_24_2023-intlogagg-policy-'+str(i), 'value'),
+         Input('flink_10_24_2023-intlogagg-itr-'+str(i), 'value'),
+         Input('flink_10_24_2023-intlogagg-dvfs-'+str(i), 'value')]
     )
     def update_intlogagg(yaxis, itera, policy, itr, dvfs):
         fig1 = go.Figure()
@@ -477,7 +477,7 @@ for i in range(1, 3):
         
         for core in range(0, 16):            
             df = pd.DataFrame()
-            fname=f"/home/handong/flink/11_3_2023_5.15.89_itrlog/query1_cores16_frate300000_600000_fbuff-1_itr{itr}_{policy}dvfs{rdvfs_dict[dvfs]}_source16_mapper16_sink16_repeat{itera}/ITRlogs/linux.flink.dmesg._{core}_{itera}"
+            fname=f"/home/handong/flink/10_24_2023_5.15.89_itrlog/query1_cores16_frate300000_600000_fbuff-1_itr{itr}_{policy}dvfs{rdvfs_dict[dvfs]}_source16_mapper16_sink4_repeat{itera}/ITRlogs/linux.flink.dmesg._{core}_{itera}"
             df = pd.read_csv(fname, sep=' ', names=LINUX_COLS)
             df_non0j = df[(df['joules']>0) & (df['instructions'] > 0) & (df['cycles'] > 0) & (df['ref_cycles'] > 0) & (df['llc_miss'] > 0)]
             df_non0j['timestamp'] = df_non0j['timestamp'] - df_non0j['timestamp'].min()
@@ -492,6 +492,5 @@ for i in range(1, 3):
             df_non0j.dropna(inplace=True)
             df_non0j = df_non0j[df_non0j['joules_diff'] > 0]
 
-            fig1.add_trace(go.Scatter(x=df_non0j['timestamp'], y=df_non0j[yaxis], fill='tozeroy',
-                                      mode='none'))
+            fig1.add_trace(go.Scatter(x=df_non0j['i'], y=df_non0j[yaxis], name=f"Core {core}"))
         return fig1
