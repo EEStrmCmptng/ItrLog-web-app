@@ -9,7 +9,7 @@ import pandas as pd
 
 from app import app
 from apps import *
-from apps import homepage, flink11_3_2023_100K, flink11_3_2023_300K, flink11_3_2023_200K, flink11_3_2023_400K, flink11_16_2023, flink11_28_2023, flink_query1tscnopin, flink_query1tsc1357, flink_query1tsc2468, results, launch 
+from apps import homepage, flink11_3_2023_100K, flink11_3_2023_300K, flink11_3_2023_200K, flink11_3_2023_400K, flink11_16_2023, flink11_28_2023, flink_query1tscnopin, flink_query1tsc1357, flink_query1tsc2468, flink_imgproc, results, launch 
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -68,6 +68,11 @@ sidebar = html.Div(
                             ], title="Query 1", id="query1"
                         ),
                         dbc.AccordionItem(
+                            [
+                                dbc.NavLink("2_2_2024", href="/apps/flink_imgproc", active="exact")
+                            ], title="Imgproc", id="imgproc"
+                        ),
+                        dbc.AccordionItem(
                             "No yet Implemented", title="Query 3", id="query3"
                         ),
                         dbc.AccordionItem(
@@ -123,6 +128,8 @@ def render_page_content(pathname):
         return flink_query1tsc1357.layout
     elif pathname == '/apps/flink_query1tsc2468':
         return flink_query1tsc2468.layout
+    elif pathname == '/apps/flink_imgproc':
+        return flink_imgproc.layout
     elif pathname == '/apps/results':
         return results.layout
     elif pathname == '/apps/launch':

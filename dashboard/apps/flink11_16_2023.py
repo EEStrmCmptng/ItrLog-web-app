@@ -175,7 +175,8 @@ layout = html.Div([
         html.Br()
     ]),
     dbc.Row([        
-        dbc.Col(children=[genintlogfig(i) for i in range(1,17)])
+        #dbc.Col(children=[genintlogfig(i) for i in range(1,17)])
+        dbc.Col(children=[genintlogfig(i) for i in range(1,2)])
     ])
 ])
 
