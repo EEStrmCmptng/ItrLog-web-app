@@ -24,9 +24,9 @@ mappers = [4, 8, 12, 16]
 # not exploring different combo for these yet
 itrs = [1]
 dvfss = [1]
-sources = [16] # num of sources
-sinks = [16] # num of sinks
-ncores = [16] # num of physical cores to use
+sources = [20] # num of sources
+sinks = [20] # num of sinks
+ncores = [20] # num of physical cores to use
 
 df_dict = {
     'i': [], 'itr': [], 'dvfs': [], 'rate': [], 'policy': [], 'nmappers':[],
@@ -205,8 +205,8 @@ def parse(loc1, name):
         policy, rate, timems, itr, dvfs, mapper, cores, source, sink = combo
         
         for i in range(nrepeat):                            
-            loc=f"{loc1}/{name}_cores{cores}_frate{rate}_{timems}_fbuff-1_itr{itr}_{policy}dvfs{dvfs}_source{source}_mapper{mapper}_sink{sink}_repeat{i}/"
-            if not path.exists(loc):
+            loc=f"{loc1}/{name}_cores{cores}_frate{rate}_{timems}_fbuff-1_itr{itr}_{policy}dvfs{dvfs}_source{source}_mapper{mapper}_sink{sink}_repeat{i}"
+            if not path.exists(loc+ "/summary.csv"):
                 break
             print(loc)
             parseFile(loc, rate, itr, dvfs, policy, i, mapper, timems)
