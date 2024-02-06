@@ -152,9 +152,9 @@ for i in range(1, 3):
                          x=xcol, 
                          y=ycol, 
                          color='rate',
-                         hover_data=['i', 'nmappers', 'rate', 'policy'],
-                         custom_data=['i', 'nmappers', 'rate', 'policy'],
-                         title=f'X={xcol}\nY={ycol}')    
+                         hover_data=['i', 'nmappers', 'SourcenumRecordsOutPerSecond_avg', 'rate', 'policy'],
+                         custom_data=['i', 'nmappers', 'SourcenumRecordsOutPerSecond_avg', 'rate', 'policy'],
+                         title=f'X={xcol}\nY={ycol}')
         return fig
 
 @app.callback(
