@@ -19,6 +19,10 @@ workload_loc=f'flink/{uname}/combined.csv'
 df_comb = pd.read_csv(workload_loc, sep=',')
 df_comb = df_comb[df_comb['i'] > 0]
 df_comb = df_comb[df_comb['watts_avg'] > 0]
+
+# Remove all entries where average # of records out from source is less than 95% of desired rate.
+df_comb = df_comb[df_comb['SourcenumRecordsOutPerSecond_avg'] >= (df_comb['rate'] * 0.95)]
+
 axis_values = [{'label': key, 'value': key} for key in df_comb.columns]
 numfigs = 3
 

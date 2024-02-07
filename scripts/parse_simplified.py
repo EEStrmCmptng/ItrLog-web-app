@@ -24,9 +24,9 @@ mappers = [4, 8, 12, 16]
 # not exploring different combo for these yet
 itrs = [1]
 dvfss = [1]
-sources = [20] # num of sources
-sinks = [20] # num of sinks
-ncores = [20] # num of physical cores to use
+sources = [16, 20] # num of sources
+sinks = [16, 20] # num of sinks
+ncores = [16, 20] # num of physical cores to use
 
 df_dict = {
     'i': [], 'itr': [], 'dvfs': [], 'rate': [], 'policy': [], 'nmappers':[],
