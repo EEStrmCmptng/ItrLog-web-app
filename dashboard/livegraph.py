@@ -6,8 +6,10 @@ import random
 import os
 from os import path
 from subprocess import Popen, PIPE, call
+from collections import deque
+import statistics
 
-logs="/users/hand32/experiment-scripts/logs/query1_cores16_frate100000_6000000_fbuff-1_itr1_ondemanddvfs1_source16_mapper4_sink16_repeat0/"
+logs="/users/hand32/experiment-scripts/logs/query1_cores16_frate300000_6000000_fbuff-1_itr1_ondemanddvfs1_source16_mapper16_sink16_repeat0/"
 flinklogs=f"{logs}/Flinklogs/"
 
 nsources=16
@@ -17,6 +19,9 @@ ys = []
 xpower=[]
 ypower=[]
 lastfig={}
+
+# Create a FIFO queue of length 60
+fifo_queue = deque(maxlen=60)
 
 app = dash.Dash(__name__)
 
@@ -87,7 +92,11 @@ app.layout = html.Div([
         id='interval-2',
         interval=1*1000,  # in milliseconds
         n_intervals=0
-    )
+    ),
+    html.Div([
+        html.H3("Average Power: "),
+        html.Div(id="avgpow")
+    ], style={'display': 'inline-block'})
 ])
 
 # Callback to update the graph every second
@@ -143,11 +152,14 @@ def update_graph(n):
 # Callback to update the graph every second
 @app.callback(
     Output('live-power', 'figure'),
+    Output('avgpow', 'children'),
     [Input('interval-2', 'n_intervals')]
 )
 def update_power(n):
     global xpower, ypower
     y = read_power()
+    fifo_queue.append(y)
+    
     # Update x-axis
     xpower.append(xpower[-1] + 1)
     ypower.append(y)
@@ -159,7 +171,7 @@ def update_power(n):
         }
     }
     
-    return fig
+    return fig, f"{round(statistics.mean(fifo_queue), 2)}, stddev: {round(statistics.stdev(fifo_queue), 2)}"
     
 if __name__ == '__main__':
     xs.append(0)
@@ -167,4 +179,4 @@ if __name__ == '__main__':
     ypower.append(0)
     for i in range(nsources):
         ys.append([0])
-    app.run_server(port=8888, debug=True, host='128.110.96.4')
+    app.run_server(port=8888, debug=True, host='128.110.96.37')
